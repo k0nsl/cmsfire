@@ -2,6 +2,7 @@
 
 class story extends CI_Controller {
 	
+	private $name = "";
 	private $link = "";
 	private $description = "";
 	private $domain = "";
@@ -91,9 +92,14 @@ class story extends CI_Controller {
 		$this->form_validation->set_rules('link', 'link', 'trim|max_length[2048]|xss_clean');
 		$this->form_validation->set_rules('description', 'Description', 'trim|max_length[2048]|xss_clean');
 		
-		$this->link = $this->input->post('link');
-		$this->description = $this->input->post('description');			
-		
+		$this->link = strip_tags($this->input->post('link'));
+		$this->description = strip_tags($this->input->post('description'));			
+		$this->name = strip_tags($this->input->post('name'));
+
+		if(strlen($this->name) == 0){
+			throw new Exception("Empty name");
+		}
+
 		if(strlen($this->link) == 0 && strlen($this->description) == 0){
 			throw new Exception("Both link and description fields are empty");
 		}

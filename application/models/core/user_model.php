@@ -21,12 +21,12 @@ class User_Model extends CI_Model{
 	*/
 	function insert($isMaster=false)
 	{
-		if($this->exists($this->input->post('name')) != -1){
+		if($this->exists(strip_tags($this->input->post('name'))) != -1){
 			throw new Exception('User Exists!');
 		}
 
 		$name = strip_tags($this->input->post('name'));
-		$password = strip_tags($this->input->post('password'));
+		$password = $this->input->post('password');
 		$email = strip_tags($this->input->post('email'));
 		
 		$data = array(
