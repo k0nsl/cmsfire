@@ -1,5 +1,6 @@
 CMS-Fire [aka CodeIgniter on Fire] is a content management system that allows the indexing of relevant links using a hot-swapping algorithm.
 
+To view a working demo check out: http://cmsfire.timnuwin.com
 
 
 TO SET UP:

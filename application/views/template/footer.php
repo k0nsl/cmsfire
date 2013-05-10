@@ -5,7 +5,8 @@
         </div>
         <div class="statement">Built using CMS Fire</div>
         <div class="links">          
-		  <a class="linkedIn" href="https://github.com/civilordergone/cmsfire">github</a>
+		  <a class="github" href="https://github.com/civilordergone/cmsfire">github</a>
+		  <a class="github" href="http://timnuwin.blogspot.com/">blog</a>
 		  <a class="linkedIn" href="http://www.linkedin.com/in/iamtimnguyen">linkedIn</a>
           <a class="facebook" href="https://www.facebook.com/TimNuwinsInMemoryOutput">Facebook</a>
         </div>
