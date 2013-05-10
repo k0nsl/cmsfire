@@ -51,7 +51,7 @@ $(document).ready(
 				storyEntry += "<div id='comment-container-" + item.parentCommentId + "' class='comment-container'>";				
 				storyEntry += "<label class='comment-post'>" + comment.replace(/\n/g , "<br>") + "</label><br/>";
 				storyEntry += "<a href='javascript:void(0);' id='comment-reply-" + i + "' class='comment-reply-btn' value='" + item.id + "'>reply</a>";
-				if(username == item.name || isAdmin === true){
+				if(username == item.name || isAdmin == "true"){
 					storyEntry += "<a href='javascript:void(0);' id='comment-delete-" + i + "' class='comment-delete-btn' value='" + item.id + "' value='" + item.id + "'>delete</a>";
 				}
 				storyEntry += '<form class="comment-post-form" id="comment-post-form-' + item.id + '" style="display:none;">';

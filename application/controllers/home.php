@@ -33,6 +33,7 @@ class Home extends CI_Controller {
 	
 	public function page(){	
 		$this->load->model('core/category_model');
+		$this->load->model('core/user_model');
 		$pageIndex = $this->uri->segment(3);
 		if($pageIndex == ''){$pageIndex = 1;}
 
