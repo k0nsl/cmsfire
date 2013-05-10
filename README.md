@@ -11,7 +11,9 @@ TO SET UP:
 
 3].  Navigate to "application\config\database.php" then add your proper MySQL credentials for "username", "password" and "database".
 
+4].  Set write permissions on in "application\controllers\", this is because once the script runs it will delete "initial.php"
 
-4].  Next load in the browser: "YOUR_SERVER_NAME/initial" and create your user.
+5].  Next load in the browser: "YOUR_SERVER_NAME/initial" and create your user.
+
 
 You are now set up to use CMS Fire!  Create a category to start bookmarking and discussing topics.
