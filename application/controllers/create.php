@@ -33,7 +33,7 @@ class Create extends CI_Controller {
 			$post_data = array('result'=>'');
 			$this->load->model('core/user_model');				
 			
-			if($this->user_model->exists($this->input->post('name')) == -1){
+			if($this->user_model->exists(strip_tags($this->input->post('name'))) == -1){
 				$post_data['result'] = 'Name is available';
 				$post_data['color'] = "green";
 			}else{
@@ -49,11 +49,16 @@ class Create extends CI_Controller {
 	}
 	
 	private function validate(){
-		$this->form_validation->set_rules('name', 'Name', 'required|trim|max_length[50]|xss_clean');
-		$this->form_validation->set_rules('password', 'Password', 'required|trim|max_length[50]|xss_clean');
-		$this->form_validation->set_rules('repassword', 'Re-Password', 'required|trim|max_length[50]|xss_clean');		
+		$this->form_validation->set_rules('name', 'Name', 'required|trim|max_length[255]|xss_clean');
+		$this->form_validation->set_rules('password', 'Password', 'required|trim|max_length[255]|xss_clean');
+		$this->form_validation->set_rules('repassword', 'Re-Password', 'required|trim|max_length[255]|xss_clean');		
 		$this->form_validation->set_rules('email', 'Email', 'trim|max_length[50]|xss_clean');
-		
+			
+
+		if(strlen(strip_tags($this->input->post('name'))) == 0 || strlen($this->input->post('name')) != strlen(strip_tags($this->input->post('name')))){
+			throw new Exception("Empty name");
+		}		
+
 		if($this->input->post('password') != $this->input->post('repassword')){
 			throw new Exception("Passwords don't match");
 		}

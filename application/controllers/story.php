@@ -97,7 +97,7 @@ class story extends CI_Controller {
 		$this->name = strip_tags($this->input->post('name'));
 
 		if(strlen($this->name) == 0){
-			throw new Exception("Empty name");
+			throw new Exception("Empty Title");
 		}
 
 		if(strlen($this->link) == 0 && strlen($this->description) == 0){
