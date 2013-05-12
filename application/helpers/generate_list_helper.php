@@ -25,9 +25,9 @@ if ( ! function_exists('generate_list_comment_helper'))
 			$list .= "<label class='comment-post'>".htmlentities($row->comment)."</label><br/>";			
 			
 
-			$list .= "<a class='comment-delete-btn-profile' id='story-link-comments-count-".$row->id."' href='/story/display/".$row->storyId."'>link</a> | ";
+			$list .= "<a class='comment-delete-btn-profile' id='story-link-comments-count-".$row->id."' href='/story/display/".$row->storyId."'>link</a>";
 			if($row->name == $username || $isAdmin == 'true'){				
-				$list .= "<a href='/comment/delete/".$row->id."/false' id='comment-delete-".$row->id."' class='comment-delete-btn-profile' value='".$row->id."' value='".$row->id."'>delete</a>";
+				$list .= " | <a href='/comment/delete/".$row->id."/false' id='comment-delete-".$row->id."' class='comment-delete-btn-profile' value='".$row->id."' value='".$row->id."'>delete</a>";
 			}
 
 			$list .= "</div>";				
