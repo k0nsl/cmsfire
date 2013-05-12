@@ -2,10 +2,8 @@
 
 if ( ! function_exists('generate_list_comment_helper'))
 {
-    function generate_list_comment_helper($datalist, $username, $isAdmin)
-    {		
-    	$CI = get_instance();
-    	$CI->load->model('../models/core/comment_vote_model');
+    function generate_list_comment_helper($datalist,$hasVotedArray, $username, $isAdmin)
+    {		    	
     	//You may need to load the model if it hasn't been pre-loaded
     	//$CI->load->model('core/my_model');
     	$list = "<ul class='ul-comments-user-list'>";
@@ -17,15 +15,10 @@ if ( ! function_exists('generate_list_comment_helper'))
 			$list .= " in <a href='/f/".$row->categoryName."' class='story-link-domain comments-user'>".$row->categoryName."<br/>";
 			$list .= "<a href='/user/".$row->name."' id='story-link-username-".$row->id."' class='story-link-username'><b>".$row->name."</b></a>";
 			$list .= '<a href="javascript:void(0);" id="comment-link-upvote-'.$row->id.'" class="comment-link-upvote fui-plus-24 ';
-
-			//check if voted for comment -- breaking here...
-			/*$comment = $CI->comment_vote_model->get_by_commentId($row->id);
-			if(isset($comment->score) && $comment->score == 1){
+			if($hasVotedArray[$row->id] == true){
 				$list .= "voted";			
-			}*/
-
-			$list .= '" value="'.$row->id.'">&hearts;</a>';			
-			
+			}
+			$list .= '" value="'.$row->id.'">&hearts;</a>';						
 			$list .= "<label class='comment-post-score'>".$row->score." points</label>";
 			$list .= "<label class='story-link-time-ago'>".convert_time_helper($row->days, $row->hours, $row->years, $row->minutes, $row->seconds)."</label><br/>";
 			$list .= "<div id='comment-container-".$row->parentCommentId."' class='comment-container'>";				
@@ -50,10 +43,8 @@ if ( ! function_exists('generate_list_comment_helper'))
 
 if ( ! function_exists('generate_list_submit_helper'))
 {
-    function generate_list_submit_helper($datalist, $username, $isAdmin)
+    function generate_list_submit_helper($datalist,$hasVotedArray, $username, $isAdmin)
     {		
-    	$CI = get_instance();
-    	$CI->load->model('../models/core/story_vote_model');
     	//You may need to load the model if it hasn't been pre-loaded
     	//$CI->load->model('core/my_model');
     	$list = "<ul class='ul-comments-user-list'>";
@@ -76,11 +67,10 @@ if ( ! function_exists('generate_list_submit_helper'))
 			$list .="</a>";
 			$list .="<a href='javascript:void(0);' id='story-link-upvote-".$row->id."' class='story-link-upvote fui-plus-24 ";
 
-			//check if voted for comment
-			/*$story = $CI->story_vote_model->get_by_storyId($row->id);
-			if(isset($story->score) && $story->score == 1){
+			//check if voted for stories
+			if($hasVotedArray[$row->id] == true){
 				$list .= "voted";			
-			}*/
+			}
 
 			$list .= "' value='".$row->id."'>&hearts;</a>";
 			if(strlen($domain) > 0){

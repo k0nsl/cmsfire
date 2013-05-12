@@ -11,6 +11,7 @@ class User extends CI_Controller {
 		$this->load->model('core/category_model');
 		$this->load->model('core/user_model');
 		$this->load->model('core/comment_model');
+		$this->load->model('core/comment_vote_model');
 		$this->load->helper('convert_time');
 		$this->load->helper('generate_list');
 
@@ -33,7 +34,16 @@ class User extends CI_Controller {
 			$data['categoriesResult'] = $this->category_model->get();
 
 			$commentsResultList = $this->comment_model->get_by_userId($user->id, $pageIndex);
-			$data['loadContent'] = generate_list_comment_helper($commentsResultList, $this->session->userdata('name'), $data['isAdmin']);
+			$hasVotedArray = array();
+			foreach($commentsResultList as $row){
+				$comment = $this->comment_vote_model->get_by_commentId($row->id);
+				$voted = false;
+				if(isset($comment->score) && $comment->score == 1){
+					$voted = true;
+				}
+				$hasVotedArray[$row->id] = $voted;
+			}			
+			$data['loadContent'] = generate_list_comment_helper($commentsResultList,$hasVotedArray, $this->session->userdata('name'), $data['isAdmin']);
 			$nextLinkCount = count($this->comment_model->get_by_userId($user->id, ++$pageIndex));
 			
 			if($nextLinkCount > 0){
@@ -54,6 +64,7 @@ class User extends CI_Controller {
 		$this->load->model('core/category_model');
 		$this->load->model('core/user_model');
 		$this->load->model('core/comment_model');
+		$this->load->model('core/comment_vote_model');
 		$this->load->helper('convert_time');
 		$this->load->helper('generate_list');
 
@@ -61,7 +72,7 @@ class User extends CI_Controller {
 		$username = $this->uri->segment(2);
 		$user = $this->user_model->get_by_name($username);
 		//check if user exists
-		if(isset($user->id)){
+		if(isset($user->id)){			
 			if($pageIndex == ''){$pageIndex = 1;}
 			if($pageIndex < 1){$pageIndex = 1;}
 			$data['pageIndex'] = $pageIndex;
@@ -74,9 +85,20 @@ class User extends CI_Controller {
 			$data['isAdmin'] = ((isset($this->user_model->get_by_name($this->session->userdata('name'))->isAdmin) && $this->user_model->get_by_name($this->session->userdata('name'))->isAdmin == 1) ? 'true' : 'false');
 			$data['navigationSelectedHot'] = true;
 			$data['categoriesResult'] = $this->category_model->get();
+						
+
 
 			$commentsResultList = $this->comment_model->get_by_userId($user->id, $pageIndex);
-			$data['loadContent'] = generate_list_comment_helper($commentsResultList, $this->session->userdata('name'), $data['isAdmin']);
+			$hasVotedArray = array();
+			foreach($commentsResultList as $row){
+				$comment = $this->comment_vote_model->get_by_commentId($row->id);
+				$voted = false;
+				if(isset($comment->score) && $comment->score == 1){
+					$voted = true;
+				}
+				$hasVotedArray[$row->id] = $voted;
+			}
+			$data['loadContent'] = generate_list_comment_helper($commentsResultList, $hasVotedArray, $this->session->userdata('name'), $data['isAdmin']);
 			$nextLinkCount = count($this->comment_model->get_by_userId($user->id, ++$pageIndex));
 			
 			if($nextLinkCount > 0){
@@ -96,6 +118,7 @@ class User extends CI_Controller {
 		$this->load->model('core/category_model');
 		$this->load->model('core/user_model');
 		$this->load->model('core/comment_model');
+		$this->load->model('core/comment_vote_model');
 		$this->load->helper('convert_time');
 		$this->load->helper('generate_list');
 
@@ -118,7 +141,16 @@ class User extends CI_Controller {
 			$data['categoriesResult'] = $this->category_model->get();
 
 			$commentsResultList = $this->comment_model->get_comments_liked_by_userId($user->id, $pageIndex);
-			$data['loadContent'] = generate_list_comment_helper($commentsResultList, $this->session->userdata('name'), $data['isAdmin']);
+			$hasVotedArray = array();
+			foreach($commentsResultList as $row){
+				$comment = $this->comment_vote_model->get_by_commentId($row->id);
+				$voted = false;
+				if(isset($comment->score) && $comment->score == 1){
+					$voted = true;
+				}
+				$hasVotedArray[$row->id] = $voted;
+			}			
+			$data['loadContent'] = generate_list_comment_helper($commentsResultList, $hasVotedArray, $this->session->userdata('name'), $data['isAdmin']);
 			$nextLinkCount = count($this->comment_model->get_comments_liked_by_userId($user->id, ++$pageIndex));
 			
 			if($nextLinkCount > 0){
@@ -138,6 +170,7 @@ class User extends CI_Controller {
 		$this->load->model('core/category_model');
 		$this->load->model('core/user_model');		
 		$this->load->model('core/story_model');
+		$this->load->model('core/story_vote_model');
 		$this->load->helper('convert_time');
 		$this->load->helper('generate_list');
 
@@ -160,7 +193,16 @@ class User extends CI_Controller {
 			$data['categoriesResult'] = $this->category_model->get();
 
 			$storyResultList = $this->story_model->get_by_userId($user->id, $pageIndex);
-			$data['loadContent'] = generate_list_submit_helper($storyResultList, $this->session->userdata('name'), $data['isAdmin']);
+			$hasVotedArray = array();
+			foreach($storyResultList as $row){
+				$story = $this->story_vote_model->get_by_storyId($row->id);
+				$voted = false;
+				if(isset($story->score) && $story->score == 1){
+					$voted = true;
+				}
+				$hasVotedArray[$row->id] = $voted;
+			}			
+			$data['loadContent'] = generate_list_submit_helper($storyResultList, $hasVotedArray, $this->session->userdata('name'), $data['isAdmin']);
 			$nextLinkCount = count($this->story_model->get_by_userId($user->id, ++$pageIndex));
 			
 			if($nextLinkCount > 0){
@@ -180,6 +222,7 @@ class User extends CI_Controller {
 		$this->load->model('core/category_model');
 		$this->load->model('core/user_model');		
 		$this->load->model('core/story_model');
+		$this->load->model('core/story_vote_model');
 		$this->load->helper('convert_time');
 		$this->load->helper('generate_list');
 
@@ -202,7 +245,16 @@ class User extends CI_Controller {
 			$data['categoriesResult'] = $this->category_model->get();
 
 			$storyResultList = $this->story_model->get_liked_by_userId($user->id, $pageIndex);
-			$data['loadContent'] = generate_list_submit_helper($storyResultList, $this->session->userdata('name'), $data['isAdmin']);
+			$hasVotedArray = array();
+			foreach($storyResultList as $row){
+				$story = $this->story_vote_model->get_by_storyId($row->id);
+				$voted = false;
+				if(isset($story->score) && $story->score == 1){
+					$voted = true;
+				}
+				$hasVotedArray[$row->id] = $voted;
+			}			
+			$data['loadContent'] = generate_list_submit_helper($storyResultList,$hasVotedArray, $this->session->userdata('name'), $data['isAdmin']);
 			$nextLinkCount = count($this->story_model->get_liked_by_userId($user->id, ++$pageIndex));
 			
 			if($nextLinkCount > 0){
