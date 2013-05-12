@@ -35,11 +35,13 @@ class User extends CI_Controller {
 
 			$commentsResultList = $this->comment_model->get_by_userId($user->id, $pageIndex);
 			$hasVotedArray = array();
-			foreach($commentsResultList as $row){
-				$comment = $this->comment_vote_model->get_by_commentId($row->id);
+			foreach($commentsResultList as $row){				
 				$voted = false;
-				if(isset($comment->score) && $comment->score == 1){
-					$voted = true;
+				if($data['username'] != ''){
+					$comment = $this->comment_vote_model->get_by_commentId($row->id);
+					if(isset($comment->score) && $comment->score == 1){
+						$voted = true;
+					}
 				}
 				$hasVotedArray[$row->id] = $voted;
 			}			
@@ -91,10 +93,12 @@ class User extends CI_Controller {
 			$commentsResultList = $this->comment_model->get_by_userId($user->id, $pageIndex);
 			$hasVotedArray = array();
 			foreach($commentsResultList as $row){
-				$comment = $this->comment_vote_model->get_by_commentId($row->id);
 				$voted = false;
-				if(isset($comment->score) && $comment->score == 1){
-					$voted = true;
+				if($data['username'] != ''){
+					$comment = $this->comment_vote_model->get_by_commentId($row->id);
+					if(isset($comment->score) && $comment->score == 1){
+						$voted = true;
+					}
 				}
 				$hasVotedArray[$row->id] = $voted;
 			}
@@ -142,11 +146,13 @@ class User extends CI_Controller {
 
 			$commentsResultList = $this->comment_model->get_comments_liked_by_userId($user->id, $pageIndex);
 			$hasVotedArray = array();
-			foreach($commentsResultList as $row){
-				$comment = $this->comment_vote_model->get_by_commentId($row->id);
+			foreach($commentsResultList as $row){				
 				$voted = false;
-				if(isset($comment->score) && $comment->score == 1){
-					$voted = true;
+				if($data['username'] != ''){
+					$comment = $this->comment_vote_model->get_by_commentId($row->id);
+					if(isset($comment->score) && $comment->score == 1){
+						$voted = true;
+					}
 				}
 				$hasVotedArray[$row->id] = $voted;
 			}			
@@ -194,11 +200,13 @@ class User extends CI_Controller {
 
 			$storyResultList = $this->story_model->get_by_userId($user->id, $pageIndex);
 			$hasVotedArray = array();
-			foreach($storyResultList as $row){
-				$story = $this->story_vote_model->get_by_storyId($row->id);
+			foreach($storyResultList as $row){				
 				$voted = false;
-				if(isset($story->score) && $story->score == 1){
-					$voted = true;
+				if($data['username'] != ''){
+					$story = $this->story_vote_model->get_by_storyId($row->id);
+					if(isset($story->score) && $story->score == 1){
+						$voted = true;
+					}
 				}
 				$hasVotedArray[$row->id] = $voted;
 			}			
@@ -246,11 +254,13 @@ class User extends CI_Controller {
 
 			$storyResultList = $this->story_model->get_liked_by_userId($user->id, $pageIndex);
 			$hasVotedArray = array();
-			foreach($storyResultList as $row){
-				$story = $this->story_vote_model->get_by_storyId($row->id);
+			foreach($storyResultList as $row){				
 				$voted = false;
-				if(isset($story->score) && $story->score == 1){
-					$voted = true;
+				if($data['username'] != ''){				
+					$story = $this->story_vote_model->get_by_storyId($row->id);					
+					if(isset($story->score) && $story->score == 1){
+						$voted = true;
+					}
 				}
 				$hasVotedArray[$row->id] = $voted;
 			}			

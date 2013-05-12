@@ -51,7 +51,8 @@ class Comment_Vote_Model extends CI_Model{
 	function get(){
 	}
 
-	function get_by_commentId($commentId){
+	function get_by_commentId($commentId, $isYours=true){
+		
 		$this->load->model('core/user_model');
 		if($commentId == ''){return null;}
 		$user = $this->user_model->get_by_name($this->session->userdata('name'));
@@ -61,7 +62,7 @@ class Comment_Vote_Model extends CI_Model{
 			throw new Exception('Not logged in!');
 		}
 		return $this->db->where('commentId', $commentId)->where('userId', $userId)->get($this->TABLE)->row(0);
-	}
+	}	
 
 	
 	function update($data)
