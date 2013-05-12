@@ -34,12 +34,17 @@ class story extends CI_Controller {
 		}
 	}
 
-	public function delete($storyId){
+	public function delete($storyId, $json=true){
 		try{
 			$this->load->model('core/story_model');
 			$this->story_model->delete($storyId);
 			$post_data = array('result'=>'Success!');
-			echo json_encode($post_data);
+			if($json){
+				//redirect page.
+				header('Location: ' . $_SERVER['HTTP_REFERER']);
+			}else{
+				echo json_encode($post_data);
+			}
 		}catch(Exception $e){
 			$post_data = array('result'=>$e->getMessage());
 			echo json_encode($post_data);			

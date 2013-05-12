@@ -53,11 +53,22 @@ $route['f/(:any)/load/(:any)'] = "f/load";
 $route['f/(:any)/add'] = "f/add";
 $route['f/(:any)'] = "f/index";
 
-$route['user/(:any)/load_latest/(:any)'] = "user/load_latest";
-$route['user/(:any)/latest/(:any)'] = "user/latest";
-$route['user/(:any)/latest'] = "user/latest";
-$route['user/(:any)/load/(:any)'] = "user/load";
-$route['user/(:any)/add'] = "user/add";
+
+/* User Routing*/
+$route['user/(:any)/commentsLiked/(:any)'] = "user/commentsLiked";
+$route['user/(:any)/commentsLiked'] = "user/commentsLiked";
+
+$route['user/(:any)/comments/(:any)'] = "user/comments";
+$route['user/(:any)/comments'] = "user/comments";
+
+$route['user/(:any)/submitted/(:any)'] = "user/submitted";
+$route['user/(:any)/submitted'] = "user/submitted";
+
+$route['user/(:any)/liked/(:any)'] = "user/liked";
+$route['user/(:any)/liked'] = "user/liked";
+
+$route['user/getComments/(:any)/(:any)'] = "user/getComments";
+
 $route['user/(:any)'] = "user/index";
 
 $route['default_controller'] = "home";

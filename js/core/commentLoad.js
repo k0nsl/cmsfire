@@ -45,7 +45,7 @@ $(document).ready(
 
 				storyEntry += "<li id='comment-" + item.id + "' class='comment-item " + ((parentCommentId > 0) ? 'child' : '' ) + "' value='" + item.id + "' >";				
 				storyEntry += "<a href='/user/" + item.name + "' id='story-link-username-" + i + "' class='story-link-username'>" + item.name + "</a>";
-				storyEntry += '<a href="javascript:void(0);" id="comment-link-upvote-' + item.id + '" class="comment-link-upvote fui-plus-24" value="' + item.id + '">♥</a>';
+				storyEntry += '<a href="javascript:void(0);" id="comment-link-upvote-' + item.id + '" class="comment-link-upvote fui-plus-24" value="' + item.id + '">&hearts;</a>';
 				storyEntry += "<label class='comment-post-score'>" + score + " points</label>";
 				storyEntry += "<label class='story-link-time-ago'>" + convert_time_helper(item.days, item.hours, item.years, item.minutes, item.seconds) + "</label><br/>";
 				storyEntry += "<div id='comment-container-" + item.parentCommentId + "' class='comment-container'>";				

@@ -111,8 +111,7 @@ $(document).ready(
 
 			var categoryContent = "";
 			$.each(data, function(i, item)
-			{							
-				//categoryContent += "<a href='javascript:void(0);$(\"#create-story-form #category\").val(\"" + item.name + "\");' class='create-story-category-link' value='" + item.name + "'>";
+			{
 				categoryContent += "<a href='#' class='create-story-category-link' onclick='$(\"#create-story-form #category\").val(\"" + item.name + "\");' value='" + item.name + "'>";
 				categoryContent += item.name;
 				categoryContent += "</a> - ";

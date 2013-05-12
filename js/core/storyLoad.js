@@ -35,13 +35,13 @@ $(document).ready(
 				}
 				storyEntry +=  item.title;
 				storyEntry += "</a>";
-				storyEntry += "<a href='javascript:void(0);' id='story-link-upvote-" +  item.id + "' class='story-link-upvote fui-plus-24' value='" + item.id + "'>♥</a>";
+				storyEntry += "<a href='javascript:void(0);' id='story-link-upvote-" +  item.id + "' class='story-link-upvote fui-plus-24' value='" + item.id + "'>&hearts;</a>";
 				if(domain.length > 0){
 					storyEntry += "<a href='http://" + domain + "' class='story-link-domain'>(" + domain + ")</a>";
 				}else{
 					storyEntry += "<a href='/f/" + item.categoryname + "' class='story-link-domain'>(self." + item.categoryname + ")</a>";
 				}
-				storyEntry += "<a href='javascript:void(0);' class='story-link-downvote fui-cross-24' value='" + item.id + "'>×</a>";
+				storyEntry += "<a href='javascript:void(0);' class='story-link-downvote fui-cross-24' value='" + item.id + "'>&times;</a>";
 
 				storyEntry += "<br/><label class=''>" + score + " points</label> ";
 				storyEntry += "<label class='story-link-by'>by</label>";

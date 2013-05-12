@@ -31,12 +31,17 @@ class comment extends CI_Controller {
 		}
 	}
 
-	public function delete($commentId){
+	public function delete($commentId, $json=false){
 		try{
 			$this->load->model('core/comment_model');
 			$this->comment_model->delete($commentId);
 			$post_data = array('result'=>'Success!');
-			echo json_encode($post_data);
+			if($json){
+				//redirect page.
+				header('Location: ' . $_SERVER['HTTP_REFERER']);
+			}else{
+				echo json_encode($post_data);
+			}
 		}catch(Exception $e){
 			$post_data = array('result'=>$e->getMessage());
 			echo json_encode($post_data);			

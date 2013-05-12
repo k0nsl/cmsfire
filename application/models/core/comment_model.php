@@ -67,6 +67,84 @@ class Comment_Model extends CI_Model{
 		}
 	}
 
+	function get_comments_liked_by_userId($userId, $pageIndex=1){
+		$this->load->model('core/user_model');
+		$userId = $this->security->xss_clean($userId);
+		$pageIndex = $this->security->xss_clean($pageIndex);
+		$query = "SELECT c.id as id,
+			c.comment, 
+			s.id as storyId,
+			s.name as storyName,
+			cy.name as categoryName,
+			uo.name as creatorName,
+			c.parentCommentId,
+			SUM(cv.score) as score,
+			u.name as name,
+			TIMESTAMPDIFF(second,c.submitted,current_timestamp()) as seconds, 
+			TIMESTAMPDIFF(day,c.submitted,current_timestamp()) as days,
+			TIMESTAMPDIFF(hour,c.submitted,current_timestamp()) as hours,
+			TIMESTAMPDIFF(minute,c.submitted,current_timestamp()) as minutes,
+			TIMESTAMPDIFF(year,c.submitted,current_timestamp()) as years	
+				from comment c
+			inner join story s
+				on s.id = c.storyId
+			left join user u
+				on u.id = c.userId
+			left join category cy
+				on cy.id = s.categoryId
+			left join user uo
+				on uo.id = s.userId				
+			inner join comment_vote cv
+				on cv.commentId = c.id
+			where c.deleted = 0 and cv.score = 1 and cv.userId = ".$userId." and c.userId != ".$userId."
+				group by c.id
+			order by	
+				c.submitted
+			desc
+				limit ".$this->ITEMS_PER_PAGE." offset ".(($pageIndex-1) * $this->ITEMS_PER_PAGE).";";
+
+		return $this->db->query($query)->result();		
+	}
+
+	function get_by_userId($userId, $pageIndex=1){
+		$this->load->model('core/user_model');
+		$userId = $this->security->xss_clean($userId);
+		$pageIndex = $this->security->xss_clean($pageIndex);
+		$query = "SELECT c.id as id,
+			c.comment, 
+			s.id as storyId,
+			s.name as storyName,
+			cy.name as categoryName,
+			uo.name as creatorName,
+			c.parentCommentId,
+			SUM(cv.score) as score,
+			u.name as name,
+			TIMESTAMPDIFF(second,c.submitted,current_timestamp()) as seconds, 
+			TIMESTAMPDIFF(day,c.submitted,current_timestamp()) as days,
+			TIMESTAMPDIFF(hour,c.submitted,current_timestamp()) as hours,
+			TIMESTAMPDIFF(minute,c.submitted,current_timestamp()) as minutes,
+			TIMESTAMPDIFF(year,c.submitted,current_timestamp()) as years	
+				from comment c
+			inner join story s
+				on s.id = c.storyId
+			left join user u
+				on u.id = c.userId
+			left join category cy
+				on cy.id = s.categoryId
+			left join user uo
+				on uo.id = s.userId				
+			left join comment_vote cv
+				on cv.commentId = c.id
+			where c.userId = ".$userId." and c.deleted = 0
+				group by c.id
+			order by	
+				c.submitted
+			desc
+				limit ".$this->ITEMS_PER_PAGE." offset ".(($pageIndex-1) * $this->ITEMS_PER_PAGE).";";
+
+		return $this->db->query($query)->result();
+	}
+
 	function get_by_commentId($commentId){
 		return $this->db->where('id', $commentId)->get($this->TABLE)->row(0);
 	}

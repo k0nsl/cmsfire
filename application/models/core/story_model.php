@@ -4,6 +4,7 @@ class Story_Model extends CI_Model{
 	
 	//Table
 	var $TABLE = "story";
+	var $ITEMS_PER_PAGE = 25;
 	//Fields
 
 	
@@ -89,6 +90,73 @@ class Story_Model extends CI_Model{
 		}
 	}	
 	
+	function get_liked_by_userId($userId, $pageIndex=1){
+		$this->load->model('core/user_model');
+		$userId = $this->security->xss_clean($userId);
+		$pageIndex = $this->security->xss_clean($pageIndex);
+		
+		$query = "SELECT s.id as id, sum(sv.score) as score,
+			link,
+			s.description,
+			domain,
+			s.name title,
+			u.name as name,
+			c.name as categoryname,
+				TIMESTAMPDIFF(second,s.created,current_timestamp()) as seconds, 
+				TIMESTAMPDIFF(day,s.created,current_timestamp()) as days,
+				TIMESTAMPDIFF(hour,s.created,current_timestamp()) as hours,
+				TIMESTAMPDIFF(minute,s.created,current_timestamp()) as minutes,
+				TIMESTAMPDIFF(year,s.created,current_timestamp()) as years		
+					from story s
+				left join user u
+					on u.id = s.userId
+				inner join story_vote sv
+					on sv.storyId = s.id
+				inner join category c
+					on c.id = s.categoryId
+				where s.deleted = 0 and sv.score = 1 and sv.userId = ".$userId." and s.userId != ".$userId."
+					group by s.id
+				order by	
+					s.created
+				desc
+					limit ".$this->ITEMS_PER_PAGE." offset ".(($pageIndex-1) * $this->ITEMS_PER_PAGE).";";
+
+		return $this->db->query($query)->result();				
+	}
+
+	function get_by_userId($userId, $pageIndex=1){
+		$this->load->model('core/user_model');
+		$userId = $this->security->xss_clean($userId);
+		$pageIndex = $this->security->xss_clean($pageIndex);
+		
+		$query = "SELECT s.id as id, sum(sv.score) as score,
+			link,
+			s.description,
+			domain,
+			s.name title,
+			u.name as name,
+			c.name as categoryname,
+				TIMESTAMPDIFF(second,s.created,current_timestamp()) as seconds, 
+				TIMESTAMPDIFF(day,s.created,current_timestamp()) as days,
+				TIMESTAMPDIFF(hour,s.created,current_timestamp()) as hours,
+				TIMESTAMPDIFF(minute,s.created,current_timestamp()) as minutes,
+				TIMESTAMPDIFF(year,s.created,current_timestamp()) as years		
+					from story s
+				left join user u
+					on u.id = s.userId
+				left join story_vote sv
+					on sv.storyId = s.id
+				inner join category c
+					on c.id = s.categoryId
+				where s.deleted = 0 and  s.userId = ".$userId."
+					group by s.id
+				order by	
+					s.created
+				desc
+					limit ".$this->ITEMS_PER_PAGE." offset ".(($pageIndex-1) * $this->ITEMS_PER_PAGE).";";
+
+		return $this->db->query($query)->result();		
+	}
 
 	function get_by_storyId($storyId){
 		return $this->db->where('id', $storyId)->get($this->TABLE)->row(0);
