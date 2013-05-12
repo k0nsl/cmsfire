@@ -39,9 +39,11 @@ class story extends CI_Controller {
 			$this->load->model('core/story_model');
 			$this->story_model->delete($storyId);
 			$post_data = array('result'=>'Success!');
-			if($json){
+			if(!$json){
 				//redirect page.
-				header('Location: ' . $_SERVER['HTTP_REFERER']);
+				if(isset($_SERVER['HTTP_REFERER'])){
+					header('Location: ' . $_SERVER['HTTP_REFERER']);
+				}
 			}else{
 				echo json_encode($post_data);
 			}
