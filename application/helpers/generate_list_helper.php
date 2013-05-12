@@ -18,11 +18,11 @@ if ( ! function_exists('generate_list_comment_helper'))
 			$list .= "<a href='/user/".$row->name."' id='story-link-username-".$row->id."' class='story-link-username'><b>".$row->name."</b></a>";
 			$list .= '<a href="javascript:void(0);" id="comment-link-upvote-'.$row->id.'" class="comment-link-upvote fui-plus-24 ';
 
-			//check if voted for comment
-			$comment = $CI->comment_vote_model->get_by_commentId($row->id);
+			//check if voted for comment -- breaking here...
+			/*$comment = $CI->comment_vote_model->get_by_commentId($row->id);
 			if(isset($comment->score) && $comment->score == 1){
 				$list .= "voted";			
-			}
+			}*/
 
 			$list .= '" value="'.$row->id.'">&hearts;</a>';			
 			
@@ -77,10 +77,10 @@ if ( ! function_exists('generate_list_submit_helper'))
 			$list .="<a href='javascript:void(0);' id='story-link-upvote-".$row->id."' class='story-link-upvote fui-plus-24 ";
 
 			//check if voted for comment
-			$story = $CI->story_vote_model->get_by_storyId($row->id);
+			/*$story = $CI->story_vote_model->get_by_storyId($row->id);
 			if(isset($story->score) && $story->score == 1){
 				$list .= "voted";			
-			}
+			}*/
 
 			$list .= "' value='".$row->id."'>&hearts;</a>";
 			if(strlen($domain) > 0){
